@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>セルフケア・ナビゲーション - 心と身体の包括的ソリューション</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* ナビゲーション */
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* ヘロー */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: slideUp 1s ease-out;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideUp 1.2s ease-out;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* フィーチャー */
+        .features {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        /* 価格セクション */
+        .pricing {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .price-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .price-card.featured {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transform: scale(1.05);
+        }
+
+        .price-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .price-list {
+            text-align: left;
+            margin: 1.5rem 0;
+            list-style: none;
+        }
+
+        .price-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-list li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* フッター */
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* アニメーション */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .price-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav>
+        <ul>
+            <li><a href="#home">ホーム</a></li>
+            <li><a href="#features">機能</a></li>
+            <li><a href="#pricing">根拠</a></li>
+            <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+    </nav>
+
+    <!-- ヒーロー -->
+    <section class="hero" id="home">
+        <h1>🌿 セルフケアの真髄</h1>
+        <p>科学的なアプローチで心身の健康を総合的に管理する次世代プラットフォーム</p>
+        <button class="cta-button" onclick="handleClick()">健康管理を開始する</button>
+    </section>
+
+    <!-- フィーチャー -->
+    <section class="features" id="features">
+        <h2>主要機能</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>包括的なモニタリング</h3>
+                <p>気分、睡眠、食事、ストレスなど複数の生活指標を一元管理。データに基づいた自己理解が可能</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>心身の状態把握</h3>
+                <p>良好サイン、注意サイン、悪化サインを記録し、早期対応で健康維持をサポート</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>リカバリー支援</h3>
+                <p>スキンケア、マインドフルネス、栄養補給など、パーソナライズされたリカバリー方法を提案</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 実証ベース -->
+    <section class="pricing" id="pricing">
+        <h2>科学的根拠</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>🔬 認知行動療法 (CBT)</h3>
+                <div style="font-size: 1rem; color: #667eea; margin: 1rem 0; font-weight: bold;">思考パターンの最適化</div>
+                <ul class="price-list">
+                    <li>ストレス対処戦略の実装</li>
+                    <li>ネガティブサイクルの検出</li>
+                    <li>リアルタイムフィードバック</li>
+                </ul>
+                <button class="cta-button" style="width: 100%; margin-top: 1rem;">詳細を見る</button>
+            </div>
+            <div class="price-card featured">
+                <h3>🌙 睡眠・疲労管理</h3>
+                <div style="font-size: 1rem; color: #667eea; margin: 1rem 0; font-weight: bold;">質の高い生活リズム</div>
+                <ul class="price-list">
+                    <li>睡眠品質の追跡</li>
+                    <li>疲労レベルの分析</li>
+                    <li>最適な休息提案</li>
+                    <li>リズム正常化プログラム</li>
+                </ul>
+                <button class="cta-button" style="width: 100%; margin-top: 1rem;">詳細を見る</button>
+            </div>
+            <div class="price-card">
+                <h3>🥗 栄養・運動科学</h3>
+                <div style="font-size: 1rem; color: #667eea; margin: 1rem 0; font-weight: bold;">ホリスティックウェルネス</div>
+                <ul class="price-list">
+                    <li>食事習慣の最適化</li>
+                    <li>運動パターン管理</li>
+                    <li>栄養バランス分析</li>
+                </ul>
+                <button class="cta-button" style="width: 100%; margin-top: 1rem;">詳細を見る</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding-bottom: 1rem;">
+            <p><strong>セルフケア・ナビゲーション</strong> - 心と身体の健康管理プラットフォーム</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">本サービスは医学的診断ツールではありません。異常を感じた場合は医療機関にご相談ください。</p>
+            <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.8;">&copy; 2026 Self-Care Navigation Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
