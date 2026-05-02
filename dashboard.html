@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康管理ダッシュボード - セルフケア・ナビゲーション</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* ナビゲーション */
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav div {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* メインコンテンツ */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .status-indicator {
+            font-size: 3rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .status-good { color: #10b981; }
+        .status-warning { color: #f59e0b; }
+        .status-alert { color: #ef4444; }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* 記録表 */
+        .records-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* フッター */
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav>
+        <div>
+            <h1>🌿 セルフケア・ナビゲーション</h1>
+            <a href="index.html">← トップに戻る</a>
+        </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="container">
+        <h2>📊 健康管理ダッシュボード</h2>
+
+        <!-- 今日の状態記録 -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>今日の気分</h3>
+                <div class="input-group">
+                    <label>気分レベル (1-5)</label>
+                    <input type="number" min="1" max="5" placeholder="1-5で選択">
+                </div>
+                <div class="status-indicator status-good">😊</div>
+            </div>
+
+            <div class="card">
+                <h3>睡眠状態</h3>
+                <div class="input-group">
+                    <label>睡眠時間</label>
+                    <input type="number" step="0.5" placeholder="時間を入力">
+                </div>
+                <div class="status-indicator status-good">😴</div>
+            </div>
+
+            <div class="card">
+                <h3>食事状況</h3>
+                <div class="input-group">
+                    <label>食事回数</label>
+                    <select>
+                        <option>選択してください</option>
+                        <option>1食</option>
+                        <option>2食</option>
+                        <option>3食</option>
+                    </select>
+                </div>
+                <div class="status-indicator status-good">🍽️</div>
+            </div>
+
+            <div class="card">
+                <h3>ストレスレベル</h3>
+                <div class="input-group">
+                    <label>ストレス度合い (1-5)</label>
+                    <input type="number" min="1" max="5" placeholder="1-5で選択">
+                </div>
+                <div class="status-indicator status-warning">😓</div>
+            </div>
+        </div>
+
+        <!-- 詳細記録 -->
+        <div class="card" style="margin-bottom: 3rem;">
+            <h3>📝 今日の詳細記録</h3>
+            
+            <div class="input-group">
+                <label>記録日</label>
+                <input type="date">
+            </div>
+
+            <div class="input-group">
+                <label>時間帯</label>
+                <select>
+                    <option>選択してください</option>
+                    <option>朝</option>
+                    <option>昼</option>
+                    <option>晩</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>良好なサイン</label>
+                <textarea placeholder="例：心に余裕がある、適度な身だしなみ..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>注意が必要なサイン</label>
+                <textarea placeholder="例：言葉数が少ない、食欲不振..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>リカバリー方法</label>
+                <textarea placeholder="例：コーヒーを飲む、瞑想、入浴..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>その他のメモ</label>
+                <textarea placeholder="自由に記入してください"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="saveRecord()">💾 記録を保存</button>
+                <button class="btn-secondary" onclick="clearForm()">クリア</button>
+            </div>
+        </div>
+
+        <!-- 記録一覧 -->
+        <h2>📋 記録一覧</h2>
+        <div class="records-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>時間帯</th>
+                        <th>気分</th>
+                        <th>睡眠</th>
+                        <th>ストレス</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-05-02</td>
+                        <td>朝</td>
+                        <td>4</td>
+                        <td>7時間</td>
+                        <td>2</td>
+                        <td>良好な朝</td>
+                    </tr>
+                    <tr>
+                        <td>2026-05-01</td>
+                        <td>晩</td>
+                        <td>3</td>
+                        <td>6.5時間</td>
+                        <td>3</td>
+                        <td>やや疲れた</td>
+                    </tr>
+                    <tr>
+                        <td>2026-04-30</td>
+                        <td>昼</td>
+                        <td>5</td>
+                        <td>8時間</td>
+                        <td>1</td>
+                        <td>最高の日</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <footer>
+        <p><strong>セルフケア・ナビゲーション</strong></p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">心と身体の健康を継続的に管理し、より良い生活をサポートします。</p>
+        <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.8;">&copy; 2026 Self-Care Navigation Inc. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function saveRecord() {
+            alert('✓ 記録が保存されました。');
+        }
+
+        function clearForm() {
+            if (confirm('フォームをクリアしますか？')) {
+                document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            }
+        }
+    </script>
+</body>
+</html>
