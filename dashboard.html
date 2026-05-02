@@ -16,6 +16,12 @@
             line-height: 1.6;
             color: #333;
             background: #f8f9fa;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.fade-out {
+            opacity: 0;
         }
 
         /* ナビゲーション */
@@ -46,6 +52,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.3s;
+            cursor: pointer;
         }
 
         nav a:hover {
@@ -230,7 +237,7 @@
     <nav>
         <div>
             <h1>🌿 セルフケア・ナビゲーション</h1>
-            <a href="index.html">← トップに戻る</a>
+            <a onclick="navigateToPage(event, 'index.html')">← トップに戻る</a>
         </div>
     </nav>
 
@@ -388,6 +395,20 @@
                 document.querySelectorAll('input, textarea').forEach(el => el.value = '');
             }
         }
+
+        // ページ遷移アニメーション
+        function navigateToPage(event, url) {
+            event.preventDefault();
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
+        // ページロード時のフェードイン
+        window.addEventListener('load', () => {
+            document.body.classList.remove('fade-out');
+        });
     </script>
 </body>
 </html>
